@@ -41,6 +41,17 @@ public class Hatsonezet extends JPanel {
             gr.fillRect(x, y, labSzelesseg, labMagassag);
         }
 
+        //Karfák
+        gr.setColor(kanape.karfaSzin);
+        int karfaSzelesseg = 30;
+        int karfaMagassag = kanape.meret.height / 2;
+        for (int i = 0; i < 2; i++) {
+            int x = i == 0 ? kanapeX - karfaSzelesseg / 2 : kanapeX + kanape.meret.width - (karfaSzelesseg / 2);
+            int y = (int) (kanapeY + kanape.meret.height * 0.4);
+
+            gr.fillRoundRect(x, y, karfaSzelesseg, karfaMagassag, 40 ,20);
+        }
+
         gr.dispose();
     }
 }

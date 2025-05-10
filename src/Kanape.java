@@ -7,7 +7,9 @@ public class Kanape {
 
     int labSzam;
     Color labSzin;
-    Karfa[] karfak;
+
+    Color karfaSzin;
+
     Parna[] parnak;
 
     public Kanape(){
@@ -15,5 +17,6 @@ public class Kanape {
         szin = new Color(0,0,0);
         labSzam = 2;
         labSzin = new Color(176, 101, 0);
+        karfaSzin = new Color(176, 101, 0);
     }
 }
