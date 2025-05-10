@@ -18,6 +18,12 @@ public class Main {
         Hatsonezet hat = new Hatsonezet(kanape);
         cp.add(hat);
 
+        Oldalnezet old = new Oldalnezet(kanape);
+        cp.add(old);
+
+        Felulnezet fel = new Felulnezet(kanape);
+        cp.add(fel);
+
         frame.setVisible(true);
     }
 }

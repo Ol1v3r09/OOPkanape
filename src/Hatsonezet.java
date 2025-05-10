@@ -20,11 +20,13 @@ public class Hatsonezet extends JPanel {
 
         //Háttámla
         gr.setColor(kanape.szin);
-        gr.fillRect(
+        gr.fillRoundRect(
                 kanapeX,
                 kanapeY,
                 kanape.meret.width,
-                kanape.meret.height
+                kanape.meret.height,
+                20,
+                20
         );
 
         //Lábak
@@ -43,7 +45,7 @@ public class Hatsonezet extends JPanel {
 
         //Karfák
         gr.setColor(kanape.karfaSzin);
-        int karfaSzelesseg = 30;
+        int karfaSzelesseg = 35;
         int karfaMagassag = kanape.meret.height / 2;
         for (int i = 0; i < 2; i++) {
             int x = i == 0 ? kanapeX - karfaSzelesseg / 2 : kanapeX + kanape.meret.width - (karfaSzelesseg / 2);
