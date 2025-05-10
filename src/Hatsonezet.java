@@ -25,8 +25,8 @@ public class Hatsonezet extends JPanel {
                 kanapeY,
                 kanape.meret.width,
                 kanape.meret.height,
-                20,
-                20
+                21,
+                21
         );
 
         //Lábak

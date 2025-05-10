@@ -26,7 +26,7 @@ public class Oldalnezet extends JPanel {
                 kanapeY,
                 kanape.meret.width / 7,
                 kanape.meret.height + 10,
-                10,10
+                11,11
         );
 
 

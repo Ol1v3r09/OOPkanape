@@ -26,8 +26,8 @@ public class Felulnezet extends JPanel {
                 kanapeY,
                 kanape.meret.width,
                 kanape.meret.height/ 5,
-                20,
-                20
+                21,
+                21
         );
 
 
