@@ -30,7 +30,7 @@ public class Felulnezet extends JPanel {
                 21
         );
 
-
+        gr.dispose();
 
 
 

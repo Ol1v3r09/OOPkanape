@@ -76,6 +76,7 @@ public class Oldalnezet extends JPanel {
                 40,
                 20
         );
+        gr.dispose();
     }
 }
 
