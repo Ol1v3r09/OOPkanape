@@ -13,9 +13,8 @@ public class Hatsonezet extends JPanel {
         super.paintComponent(g);
         Graphics2D gr = (Graphics2D) g.create();
 
-        Dimension size = getSize();
-        int kanapeX = (int)((double) size.width * 0.05);
-        int kanapeY = (int)((double) size.height * 0.10);
+        int kanapeX = (getWidth() - kanape.meret.width) / 2;
+        int kanapeY = (getHeight() - kanape.meret.height) / 2;
 
 
         //Háttámla

@@ -5,6 +5,11 @@ public class Kanape {
     Color szin;
     Dimension parnaMeret;
 
+    //Fix meret
+    Dimension hattamlaMeret;
+    Dimension oldalrolHattamlaMeret;
+    Dimension oldalrolTamaszMeret;
+
     int labSzam;
     Color labSzin;
 

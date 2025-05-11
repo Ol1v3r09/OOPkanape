@@ -5,24 +5,24 @@ public class Main {
     public static void main (String args[]) {
         JFrame frame = new JFrame();
         frame.setSize(1300, 800);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         Menu menu = new Menu();
         frame.setJMenuBar(menu.GetMenuBar());
 
-        Container cp = frame.getContentPane();
         GridLayout grid =  new GridLayout(2,2);
-        cp.setLayout(grid);
+        frame.setLayout(grid);
 
         Kanape kanape = new Kanape();
 
         Hatsonezet hat = new Hatsonezet(kanape);
-        cp.add(hat);
+        frame.add(hat);
 
         Oldalnezet old = new Oldalnezet(kanape);
-        cp.add(old);
+        frame.add(old);
 
         Felulnezet fel = new Felulnezet(kanape);
-        cp.add(fel);
+        frame.add(fel);
 
         frame.setVisible(true);
     }

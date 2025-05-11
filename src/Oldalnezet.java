@@ -14,9 +14,12 @@ public class Oldalnezet extends JPanel {
         super.paintComponent(g);
         Graphics2D gr = (Graphics2D) g.create();
 
-        Dimension size = getSize();
-        int kanapeX = (int)((double) size.width * 0.05);
-        int kanapeY = (int)((double) size.height * 0.10);
+
+        int hattamlaWidth = kanape.meret.width / 7;
+        int hattamlaHeight = kanape.meret.height + 10;
+
+        int kanapeX = (getWidth() - kanape.meret.width) / 2;
+        int kanapeY = (getHeight() - kanape.meret.height) / 2;
 
 
         // Háttámla oldalról
@@ -24,8 +27,8 @@ public class Oldalnezet extends JPanel {
         gr.fillRoundRect(
                 kanapeX,
                 kanapeY,
-                kanape.meret.width / 7,
-                kanape.meret.height + 10,
+                hattamlaWidth,
+                hattamlaHeight,
                 11,11
         );
 
