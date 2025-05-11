@@ -14,11 +14,7 @@ public class Oldalnezet extends JPanel {
         super.paintComponent(g);
         Graphics2D gr = (Graphics2D) g.create();
 
-
-        int hattamlaWidth = kanape.meret.width / 7;
-        int hattamlaHeight = kanape.meret.height + 10;
-
-        int kanapeX = (getWidth() - kanape.meret.width) / 2;
+        int kanapeX = (getWidth() - kanape.oAlsoTamaszMeret.width) / 2;
         int kanapeY = (getHeight() - kanape.meret.height) / 2;
 
 
@@ -27,57 +23,52 @@ public class Oldalnezet extends JPanel {
         gr.fillRoundRect(
                 kanapeX,
                 kanapeY,
-                hattamlaWidth,
-                hattamlaHeight,
-                11,11
+                kanape.oHattamlaMeret.width,
+                kanape.oHattamlaMeret.height,
+                10,10
         );
 
 
         // Alsó támasz
         gr.setColor(kanape.szin);
-        int tamaszMagassag = kanape.meret.height / 5;
-        int tamaszSzelesseg = kanape.meret.width / 2;
         gr.fillRoundRect(
                 kanapeX,
-                kanapeY + kanape.meret.height,
-                tamaszSzelesseg,
-                tamaszMagassag,
+                kanapeY + kanape.oHattamlaMeret.height,
+                kanape.oAlsoTamaszMeret.width,
+                kanape.oAlsoTamaszMeret.height,
                 10,10
         );
 
 
         // Hátsó lab
         gr.setColor(kanape.labSzin);
-        int labSzelesseg = 20;
-        int labMagassag = 30;
         gr.fillRect(
-                kanapeX + 20,
-                kanapeY + kanape.meret.height + tamaszMagassag,
-                labSzelesseg,
-                labMagassag
+                kanapeX + 25,
+                kanapeY + kanape.oHattamlaMeret.height + kanape.oAlsoTamaszMeret.height,
+                kanape.hLabMeret.width,
+                kanape.hLabMeret.height
         );
 
 
         // Első láb
         gr.setColor(kanape.labSzin);
         gr.fillRect(
-                kanapeX + tamaszSzelesseg - 40,
-                kanapeY + kanape.meret.height + tamaszMagassag,
-                labSzelesseg,
-                labMagassag
+                kanapeX + kanape.oAlsoTamaszMeret.width - 50,
+                kanapeY + kanape.oHattamlaMeret.height + kanape.oAlsoTamaszMeret.height,
+                kanape.hLabMeret.width,
+                kanape.hLabMeret.height
         );
 
 
         // Karfa oldalról
         gr.setColor(kanape.karfaSzin);
-        int karfaMagassag = kanape.meret.height / 2;
         gr.fillRoundRect(
-                kanapeX + 5,
-                kanapeY + (kanape.meret.height / 2 )+ 10,
-                (kanape.meret.width / 2) - 8,
-                karfaMagassag,
-                40,
-                20
+                kanapeX,
+                kanapeY + (kanape.oHattamlaMeret.height / 2),
+                kanape.oKarfaMeret.width,
+                kanape.oKarfaMeret.height,
+                30,
+                15
         );
         gr.dispose();
     }

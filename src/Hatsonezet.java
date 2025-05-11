@@ -22,42 +22,38 @@ public class Hatsonezet extends JPanel {
         gr.fillRoundRect(
                 kanapeX,
                 kanapeY,
-                kanape.meret.width,
-                kanape.meret.height,
+                kanape.hHattamlaMeret.width,
+                kanape.hHattamlaMeret.height,
                 21,
                 21
         );
 
         //Lábak
         gr.setColor(kanape.labSzin);
-        int labSzelesseg = 20;
-        int labMagassag = 30;
         int behuzas = 50;
-        double resz = (double) (kanape.meret.width - labSzelesseg - behuzas) / (kanape.labSzam - 1);
+        double resz = (double) (kanape.hHattamlaMeret.width - kanape.hLabMeret.width - behuzas) / (kanape.labSzam - 1);
 
         for (int i = 0; i < kanape.labSzam; i++) {
             int x = kanapeX + (int)(i * resz) + (behuzas / 2);
-            int y = kanapeY + kanape.meret.height;
+            int y = kanapeY + kanape.hHattamlaMeret.height;
 
-            gr.fillRect(x, y, labSzelesseg, labMagassag);
+            gr.fillRect(x, y, kanape.hLabMeret.width, kanape.hLabMeret.height);
         }
 
         //Karfák
         gr.setColor(kanape.karfaSzin);
-        int karfaSzelesseg = 35;
-        int karfaMagassag = kanape.meret.height / 2;
         for (int i = 0; i < 2; i++) {
             /*int x = i == 0 ? kanapeX - karfaSzelesseg / 2 : kanapeX + kanape.meret.width - (karfaSzelesseg / 2);
             int y = (int) (kanapeY + kanape.meret.height * 0.4);*/
             if (i==0){
-                int x = kanapeX - karfaSzelesseg;
-                int y = (int) (kanapeY + kanape.meret.height * 0.4);
-                gr.fillRoundRect(x, y, karfaSzelesseg, karfaMagassag, 20 ,20);
+                int x = kanapeX - kanape.hKarfaMeret.width;
+                int y = (int) (kanapeY + kanape.hHattamlaMeret.height * 0.4);
+                gr.fillRoundRect(x, y, kanape.hKarfaMeret.width, kanape.hKarfaMeret.height, 20 ,20);
             }
             else{
-                int x = kanapeX + kanape.meret.width;
-                int y = (int) (kanapeY + kanape.meret.height * 0.4);
-                gr.fillRoundRect(x, y, karfaSzelesseg, karfaMagassag, 20 ,20);
+                int x = kanapeX + kanape.hHattamlaMeret.width;
+                int y = (int) (kanapeY + kanape.hHattamlaMeret.height * 0.4);
+                gr.fillRoundRect(x, y, kanape.hKarfaMeret.width, kanape.hKarfaMeret.height, 20 ,20);
             }
 
         }
