@@ -41,15 +41,17 @@ public class Kanape {
         meret = new Dimension(400,150);
         parnaSzam = 4;
 
-
+        //Hátsó méretek
         hHattamlaMeret = new Dimension((int)(meret.width * 0.84), (int)(meret.height * 0.8));
         hKarfaMeret = new Dimension((int)(meret.width * 0.08), (int)(meret.height * 0.4));
         hLabMeret = new Dimension(20,(int)(meret.height * 0.2));
 
+        //Oldalsó méretek
         oHattamlaMeret = new Dimension((int)(hHattamlaMeret.height * 0.5), (int)(hHattamlaMeret.height * 0.8));
         oAlsoTamaszMeret = new Dimension((int)(hHattamlaMeret.width * 0.5), (int)(hHattamlaMeret.height * 0.2));
         oKarfaMeret = new Dimension((int)(oAlsoTamaszMeret.width), hKarfaMeret.height);
 
+        //Felső méretek
         fHattamlaMeret = new Dimension(hHattamlaMeret.width, oHattamlaMeret.width);
         fAlsoTamaszMeret = new Dimension(hHattamlaMeret.width, oHattamlaMeret.height);
 
@@ -58,9 +60,15 @@ public class Kanape {
         fParnaMeret = new Dimension(parnaSz, parnaM);
         fKarfaMeret = new Dimension(hKarfaMeret.width, (int)(fAlsoTamaszMeret.height * 0.95));
 
+        //Elsőnézetes méretek
+        eHattamlaMeret = new Dimension((int)(meret.width * 0.84), (int)(meret.height * 0.8));
+        eAlsoTamaszMeret = new Dimension((int)(meret.width * 0.84), (int)(hHattamlaMeret.height * 0.2));
+        eKarfaMeret = new Dimension((int)(meret.width * 0.08), (int)(meret.height * 0.4));
+        eParnaMeret = new Dimension(parnaSz,(int)(meret.height * 0.15));
 
-        szin = new Color(0,0,0);
-        labSzam = 2;
+
+        szin = new Color(150,50,0);
+        labSzam = 3;
         labSzin = new Color(176, 101, 0);
         karfaSzin = new Color(176, 101, 100);
 

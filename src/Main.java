@@ -24,6 +24,9 @@ public class Main {
         Felulnezet fel = new Felulnezet(kanape);
         frame.add(fel);
 
+        Elolnezet elo = new Elolnezet(kanape);
+        frame.add(elo);
+
         frame.setVisible(true);
     }
 }

@@ -20,12 +20,23 @@ public class Felulnezet extends JPanel {
 
         int hattamlaMagassag = kanape.meret.width / 7;
 
+        //Alsó Támasz felülről
         gr.setColor(kanape.szin);
-        gr.fillRect(
+        gr.fillRoundRect(
                 kanapeX,
                 kanapeY + hattamlaMagassag,
                 kanape.fAlsoTamaszMeret.width,
-                kanape.fAlsoTamaszMeret.height
+                kanape.fAlsoTamaszMeret.height,
+                5,5
+        );
+
+        gr.setColor(Color.BLACK);
+        gr.drawRoundRect(
+                kanapeX,
+                kanapeY + hattamlaMagassag,
+                kanape.fAlsoTamaszMeret.width,
+                kanape.fAlsoTamaszMeret.height,
+                5, 5
         );
 
         //Párnák
@@ -36,9 +47,20 @@ public class Felulnezet extends JPanel {
                     kanapeY + kanape.fHattamlaMeret.height,
                     kanape.fParnaMeret.width,
                     kanape.fParnaMeret.height,
-                    20,
-                    20
+                    30,
+                    13
             );
+
+            gr.setColor(Color.black);
+            gr.drawRoundRect(
+                    kanapeX + (kanape.fParnaMeret.width * i),
+                    kanapeY + kanape.fHattamlaMeret.height,
+                    kanape.fParnaMeret.width,
+                    kanape.fParnaMeret.height,
+                    30,
+                    13
+            );
+
         }
 
         // Háttámla felűlről
@@ -52,20 +74,35 @@ public class Felulnezet extends JPanel {
                 20
         );
 
+        gr.setColor(Color.BLACK);
+        gr.drawRoundRect(
+                kanapeX,
+                kanapeY,
+                kanape.fHattamlaMeret.width,
+                kanape.fHattamlaMeret.height,
+                20,
+                20
+        );
+
         //Karfák
-        gr.setColor(kanape.karfaSzin);
         for (int i = 0; i < 2; i++) {
+            gr.setColor(kanape.karfaSzin);
             /*int x = i == 0 ? kanapeX - karfaSzelesseg / 2 : kanapeX + kanape.meret.width - (karfaSzelesseg / 2);
             int y = (int) (kanapeY + kanape.meret.height * 0.4);*/
             if (i==0){
                 int x = kanapeX - kanape.fKarfaMeret.width;
                 int y = kanapeY + kanape.fHattamlaMeret.height;
-                gr.fillRoundRect(x, y, kanape.fKarfaMeret.width, kanape.fKarfaMeret.height, 20 ,20);
+                gr.fillRoundRect(x, y, kanape.fKarfaMeret.width, kanape.fKarfaMeret.height, 10 ,10);
+                gr.setColor(Color.BLACK);
+                gr.drawRoundRect(x, y, kanape.fKarfaMeret.width, kanape.fKarfaMeret.height, 10 ,10);
+
             }
             else{
                 int x = kanapeX + kanape.fAlsoTamaszMeret.width;
                 int y = kanapeY + kanape.fHattamlaMeret.height;
-                gr.fillRoundRect(x, y, kanape.fKarfaMeret.width, kanape.fKarfaMeret.height, 20 ,20);
+                gr.fillRoundRect(x, y, kanape.fKarfaMeret.width, kanape.fKarfaMeret.height, 10 ,10);
+                gr.setColor(Color.BLACK);
+                gr.drawRoundRect(x, y, kanape.fKarfaMeret.width, kanape.fKarfaMeret.height, 10 ,10);
             }
 
         }
