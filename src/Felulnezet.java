@@ -24,7 +24,7 @@ public class Felulnezet extends JPanel {
         gr.setColor(kanape.szin);
         gr.fillRoundRect(
                 kanapeX,
-                kanapeY + hattamlaMagassag,
+                kanapeY,
                 kanape.fAlsoTamaszMeret.width,
                 kanape.fAlsoTamaszMeret.height,
                 5,5
@@ -33,10 +33,31 @@ public class Felulnezet extends JPanel {
         gr.setColor(Color.BLACK);
         gr.drawRoundRect(
                 kanapeX,
-                kanapeY + hattamlaMagassag,
+                kanapeY,
                 kanape.fAlsoTamaszMeret.width,
                 kanape.fAlsoTamaszMeret.height,
                 5, 5
+        );
+
+        // Háttámla felűlről
+        gr.setColor(kanape.szin);
+        gr.fillRoundRect(
+                kanapeX,
+                kanapeY,
+                kanape.fHattamlaMeret.width,
+                kanape.fHattamlaMeret.height,
+                20,
+                20
+        );
+
+        gr.setColor(Color.BLACK);
+        gr.drawRoundRect(
+                kanapeX,
+                kanapeY,
+                kanape.fHattamlaMeret.width,
+                kanape.fHattamlaMeret.height,
+                20,
+                20
         );
 
         //Párnák
@@ -62,27 +83,6 @@ public class Felulnezet extends JPanel {
             );
 
         }
-
-        // Háttámla felűlről
-        gr.setColor(kanape.szin);
-        gr.fillRoundRect(
-                kanapeX,
-                kanapeY,
-                kanape.fHattamlaMeret.width,
-                kanape.fHattamlaMeret.height,
-                20,
-                20
-        );
-
-        gr.setColor(Color.BLACK);
-        gr.drawRoundRect(
-                kanapeX,
-                kanapeY,
-                kanape.fHattamlaMeret.width,
-                kanape.fHattamlaMeret.height,
-                20,
-                20
-        );
 
         //Karfák
         for (int i = 0; i < 2; i++) {

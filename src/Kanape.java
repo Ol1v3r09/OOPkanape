@@ -38,7 +38,7 @@ public class Kanape {
     int parnaSzam;
 
     public Kanape(){
-        meret = new Dimension(400,150);
+        meret = new Dimension(400,140);
         parnaSzam = 4;
 
         //Hátsó méretek
@@ -49,16 +49,16 @@ public class Kanape {
         //Oldalsó méretek
         oHattamlaMeret = new Dimension((int)(hHattamlaMeret.height * 0.5), (int)(hHattamlaMeret.height * 0.8));
         oAlsoTamaszMeret = new Dimension((int)(hHattamlaMeret.width * 0.5), (int)(hHattamlaMeret.height * 0.2));
-        oKarfaMeret = new Dimension((int)(oAlsoTamaszMeret.width), hKarfaMeret.height);
+        oKarfaMeret = new Dimension(oAlsoTamaszMeret.width, hKarfaMeret.height);
 
         //Felső méretek
         fHattamlaMeret = new Dimension(hHattamlaMeret.width, oHattamlaMeret.width);
-        fAlsoTamaszMeret = new Dimension(hHattamlaMeret.width, oHattamlaMeret.height);
+        fAlsoTamaszMeret = new Dimension(hHattamlaMeret.width, (int)(hHattamlaMeret.width * 0.5));
 
         int parnaSz = fAlsoTamaszMeret.width / parnaSzam;
-        int parnaM = (int)(fAlsoTamaszMeret.height * 0.95);
+        int parnaM = fAlsoTamaszMeret.height - fHattamlaMeret.height;
         fParnaMeret = new Dimension(parnaSz, parnaM);
-        fKarfaMeret = new Dimension(hKarfaMeret.width, (int)(fAlsoTamaszMeret.height * 0.95));
+        fKarfaMeret = new Dimension(hKarfaMeret.width, fAlsoTamaszMeret.height - fHattamlaMeret.height);
 
         //Elsőnézetes méretek
         eHattamlaMeret = new Dimension((int)(meret.width * 0.84), (int)(meret.height * 0.8));
