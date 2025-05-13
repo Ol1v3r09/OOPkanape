@@ -15,8 +15,11 @@ public class Oldalnezet extends JPanel {
         Graphics2D gr = (Graphics2D) g.create();
 
         int kanapeX = (getWidth() - kanape.oAlsoTamaszMeret.width) / 2;
-        int kanapeY = (getHeight() - kanape.meret.height) / 2;
+        int kanapeY = (getHeight() - kanape.y) / 2;
 
+        Font font = new Font(Font.DIALOG, Font.BOLD, 20);
+        gr.setFont(font);
+        gr.drawString("Oldalnézet", kanapeX, kanapeY / 2);
 
         // Háttámla oldalról
         gr.setColor(kanape.szin);

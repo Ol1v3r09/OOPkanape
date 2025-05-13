@@ -15,10 +15,12 @@ public class Felulnezet extends JPanel {
         super.paintComponent(g);
         Graphics2D gr = (Graphics2D) g.create();
 
-        int kanapeX = (getWidth() - kanape.meret.width) / 2;
-        int kanapeY = (getHeight() - kanape.meret.height) / 2;
+        int kanapeX = (getWidth() - kanape.x) / 2;
+        int kanapeY = (getHeight() - kanape.y) / 2;
 
-        int hattamlaMagassag = kanape.meret.width / 7;
+        Font font = new Font(Font.DIALOG, Font.BOLD, 20);
+        gr.setFont(font);
+        gr.drawString("Felülnézet", kanapeX * 2, kanapeY / 2);
 
         //Alsó Támasz felülről
         gr.setColor(kanape.szin);
