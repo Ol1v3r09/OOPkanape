@@ -3,6 +3,8 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class LetrehozasForm extends JFrame{
+
+    //KANAPE ADATOK
     int szelesseg;
     int parnaszam;
     int labszam;
@@ -11,6 +13,8 @@ public class LetrehozasForm extends JFrame{
     Color karfaszin;
     Color[] parnaszinek;
 
+
+    //FORM
     JLabel lSzelesseg;
     JTextField tfSzelesseg;
     JLabel lParnaSzam;
@@ -132,6 +136,11 @@ public class LetrehozasForm extends JFrame{
         add(buttonKarfa);
 
 
+        //SUBMIT GOMB
+        //KANAPE ADATOK TAROLASA
+
         setVisible(true);
     }
+
+    //KANAPE LETREHOZO FUNCTION
 }

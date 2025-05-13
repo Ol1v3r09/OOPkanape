@@ -17,6 +17,7 @@ public class Main {
         frame.setVisible(true);
 
         new LetrehozasForm();
+        //FORM RETURN-öljön egy Kanapet
 
         Kanape kanape = new Kanape();
 
