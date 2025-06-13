@@ -2,9 +2,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class LetrehozasForm extends JFrame{
+public class LetrehozasForm extends JFrame {
 
-    //KANAPE ADATOK
+    // KANAPÉ ADATOK
     int szelesseg;
     int parnaszam;
     int labszam;
@@ -13,8 +13,7 @@ public class LetrehozasForm extends JFrame{
     Color karfaszin;
     Color[] parnaszinek;
 
-
-    //FORM
+    // FORM
     JLabel lSzelesseg;
     JTextField tfSzelesseg;
     JLabel lParnaSzam;
@@ -28,16 +27,18 @@ public class LetrehozasForm extends JFrame{
     JLabel lKarfaSzin;
     Color cKarfaSzin;
 
+    JButton buttonParnaSzinek;
+    JPanel parnaColorPanel;
 
     public LetrehozasForm() {
-        super();
-        setSize(400, 600);
+        super("Kanapé létrehozás");
+        setSize(400, 800);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        GridLayout grid = new GridLayout(14,1);
+        GridLayout grid = new GridLayout(0, 1);
         setLayout(grid);
 
-        //Szelesseg
-
+        // Szélesség
         lSzelesseg = new JLabel("Szélesség");
         lSzelesseg.setFont(new Font("Arial", Font.PLAIN, 20));
         add(lSzelesseg);
@@ -46,8 +47,7 @@ public class LetrehozasForm extends JFrame{
         tfSzelesseg.setFont(new Font("Arial", Font.PLAIN, 15));
         add(tfSzelesseg);
 
-        //ParnaSzam
-
+        // Párnák száma
         lParnaSzam = new JLabel("Párnák száma");
         lParnaSzam.setFont(new Font("Arial", Font.PLAIN, 20));
         add(lParnaSzam);
@@ -56,8 +56,7 @@ public class LetrehozasForm extends JFrame{
         tfParnaSzam.setFont(new Font("Arial", Font.PLAIN, 15));
         add(tfParnaSzam);
 
-        //LabSzam
-
+        // Lábak száma
         lLabSzam = new JLabel("Lábak száma");
         lLabSzam.setFont(new Font("Arial", Font.PLAIN, 20));
         add(lLabSzam);
@@ -66,81 +65,135 @@ public class LetrehozasForm extends JFrame{
         tfLabSzam.setFont(new Font("Arial", Font.PLAIN, 15));
         add(tfLabSzam);
 
-        //KanapeSzin
-
+        // Kanapé színe
         lKanapeSzin = new JLabel("Kanapé színe");
         lKanapeSzin.setFont(new Font("Arial", Font.PLAIN, 20));
         add(lKanapeSzin);
 
         JButton buttonKanape = new JButton("Válassz színt");
-        buttonKanape.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                Color selectedColor = JColorChooser.showDialog(
-                        LetrehozasForm.this,
-                        "Válassz egy színt",
-                        cKanapeSzin
-                );
-
-                if (selectedColor != null) {
-                    cKanapeSzin = selectedColor;
-                    buttonKanape.setBackground(cKanapeSzin);
-                }
+        buttonKanape.addActionListener(e -> {
+            Color selectedColor = JColorChooser.showDialog(
+                    LetrehozasForm.this,
+                    "Válassz egy színt",
+                    cKanapeSzin
+            );
+            if (selectedColor != null) {
+                cKanapeSzin = selectedColor;
+                buttonKanape.setBackground(cKanapeSzin);
             }
         });
         add(buttonKanape);
 
-        //LabSzin
-
+        // Láb színe
         lLabSzin = new JLabel("Lábak színe");
         lLabSzin.setFont(new Font("Arial", Font.PLAIN, 20));
         add(lLabSzin);
 
         JButton buttonLab = new JButton("Válassz színt");
-        buttonLab.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                Color selectedColor = JColorChooser.showDialog(
-                        LetrehozasForm.this,
-                        "Válassz egy színt",
-                        cLabSzin
-                );
-
-                if (selectedColor != null) {
-                    cLabSzin = selectedColor;
-                    buttonLab.setBackground(cLabSzin);
-                }
+        buttonLab.addActionListener(e -> {
+            Color selectedColor = JColorChooser.showDialog(
+                    LetrehozasForm.this,
+                    "Válassz egy színt",
+                    cLabSzin
+            );
+            if (selectedColor != null) {
+                cLabSzin = selectedColor;
+                buttonLab.setBackground(cLabSzin);
             }
         });
         add(buttonLab);
 
-        //KarfaSzin
-
+        // Karfa színe
         lKarfaSzin = new JLabel("Karfa színe");
         lKarfaSzin.setFont(new Font("Arial", Font.PLAIN, 20));
         add(lKarfaSzin);
 
         JButton buttonKarfa = new JButton("Válassz színt");
-        buttonKarfa.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                Color selectedColor = JColorChooser.showDialog(
-                        LetrehozasForm.this,
-                        "Válassz egy színt",
-                        cKarfaSzin
-                );
-
-                if (selectedColor != null) {
-                    cKarfaSzin = selectedColor;
-                    buttonKarfa.setBackground(cKarfaSzin);
-                }
+        buttonKarfa.addActionListener(e -> {
+            Color selectedColor = JColorChooser.showDialog(
+                    LetrehozasForm.this,
+                    "Válassz egy színt",
+                    cKarfaSzin
+            );
+            if (selectedColor != null) {
+                cKarfaSzin = selectedColor;
+                buttonKarfa.setBackground(cKarfaSzin);
             }
         });
         add(buttonKarfa);
 
+        // Párnaszín kiválasztó gomb
+        buttonParnaSzinek = new JButton("Párnaszínek kiválasztása");
+        buttonParnaSzinek.addActionListener(e -> {
+            try {
+                parnaszam = Integer.parseInt(tfParnaSzam.getText());
+                parnaszinek = new Color[parnaszam];
+                parnaColorPanel.removeAll();
 
-        //SUBMIT GOMB
-        //KANAPE ADATOK TAROLASA
+                for (int i = 0; i < parnaszam; i++) {
+                    final int index = i;
+                    JButton colorButton = new JButton("Párna " + (i + 1) + " színe");
+                    colorButton.addActionListener(ev -> {
+                        Color selectedColor = JColorChooser.showDialog(
+                                LetrehozasForm.this,
+                                "Válassz színt a(z) " + (index + 1) + ". párnához",
+                                Color.WHITE
+                        );
+                        if (selectedColor != null) {
+                            parnaszinek[index] = selectedColor;
+                            colorButton.setBackground(selectedColor);
+                        }
+                    });
+                    parnaColorPanel.add(colorButton);
+                }
+
+                parnaColorPanel.revalidate();
+                parnaColorPanel.repaint();
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(LetrehozasForm.this, "Adj meg érvényes számot a párnák számához!", "Hiba", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+        add(buttonParnaSzinek);
+
+        // Panel, ahol a párnaszínek gombjai jelennek meg
+        parnaColorPanel = new JPanel();
+        parnaColorPanel.setLayout(new GridLayout(0, 1));
+        add(parnaColorPanel);
+
+        // Submit gomb
+        JButton submit = new JButton("Kanapé Létrehozása");
+        submit.addActionListener(e -> kanapeLetrehoz());
+        add(submit);
 
         setVisible(true);
     }
 
-    //KANAPE LETREHOZO FUNCTION
+    // Kanapé létrehozó metódus
+    public Kanape kanapeLetrehoz() {
+        try {
+            szelesseg = Integer.parseInt(tfSzelesseg.getText());
+            parnaszam = Integer.parseInt(tfParnaSzam.getText());
+            labszam = Integer.parseInt(tfLabSzam.getText());
+
+            kanapeszin = cKanapeSzin;
+            labszin = cLabSzin;
+            karfaszin = cKarfaSzin;
+
+            // Ha nem választott párnaszíneket, állítsuk be alapértelmezésként a kanapé színét
+            if (parnaszinek == null || parnaszinek.length != parnaszam) {
+                parnaszinek = new Color[parnaszam];
+                for (int i = 0; i < parnaszam; i++) {
+                    parnaszinek[i] = kanapeszin;
+                }
+            }
+
+            Kanape kanape = new Kanape(szelesseg, parnaszam, kanapeszin, labszam, labszin, karfaszin, parnaszinek);
+            JOptionPane.showMessageDialog(this, "Kanapé létrehozva sikeresen!");
+            return kanape;
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Kérlek számokat adj meg a méretekhez!", "Hiba", JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
+    }
 }
