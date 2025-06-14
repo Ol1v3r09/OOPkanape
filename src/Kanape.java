@@ -44,7 +44,44 @@ public class Kanape {
         y = x  / 4;
         z = (int)(x * 0.3);
         parnaSzam = 3;
+        MeretekBeallitasa();
 
+        szin = new Color(150,50,0);
+        labSzam = 3;
+        labSzin = new Color(176, 101, 0);
+        karfaSzin = new Color(176, 101, 100);
+
+
+        parnak = new Parna[parnaSzam];
+        parnak[0] = new Parna();
+        parnak[1] = new Parna();
+        parnak[2] = new Parna();
+
+        parnak[0].szin = new Color(255,0,0);
+        parnak[1].szin = new Color(0,225,0);
+        parnak[2].szin = new Color(0,0,255);
+    }
+
+    public Kanape(int szelesseg, int parnaszam, Color kanapeszin, int labszam, Color labszin, Color karfaszin, Color[] parnaszinek){
+        x = szelesseg;
+        y = x  / 4;
+        z = (int)(x * 0.3);
+        parnaSzam = parnaszam;
+        MeretekBeallitasa();
+
+        szin = kanapeszin;
+        labSzam = labszam;
+        labSzin = labszin;
+        karfaSzin = karfaszin;
+
+        parnak = new Parna[parnaSzam];
+        for (int i = 0; i < parnaSzam; i++){
+            parnak[i] = new Parna();
+            parnak[i].szin = parnaszinek[i];
+        }
+    }
+
+    public void MeretekBeallitasa(){
         //Hátsó méretek
         hHattamlaMeret = new Dimension((int)(x * 0.84), (int)(y * 0.8));
         hKarfaMeret = new Dimension((int)(x * 0.08), (int)(y * 0.4));
@@ -69,25 +106,5 @@ public class Kanape {
         eAlsoTamaszMeret = new Dimension((int)(x * 0.84), (int)(hHattamlaMeret.height * 0.2));
         eKarfaMeret = new Dimension((int)(x * 0.08), (int)(y * 0.4));
         eParnaMeret = new Dimension(parnaSz,(int)(y * 0.15));
-
-
-        szin = new Color(150,50,0);
-        labSzam = 3;
-        labSzin = new Color(176, 101, 0);
-        karfaSzin = new Color(176, 101, 100);
-
-        parnak = new Parna[parnaSzam];
-        parnak[0] = new Parna();
-        parnak[1] = new Parna();
-        parnak[2] = new Parna();
-        //parnak[3] = new Parna();
-        parnak[0].szin = new Color(255,0,0);
-        parnak[1].szin = new Color(0,225,0);
-        parnak[2].szin = new Color(0,0,255);
-        //parnak[3].szin = new Color(255,0,0);
-    }
-
-    public Kanape(int szelesseg, int parnaszam, Color kanapeszin, int labszam, Color labszin, Color karfaszin, Color[] parnaszinek){
-
     }
 }
