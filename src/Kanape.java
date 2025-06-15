@@ -6,9 +6,6 @@ public class Kanape {
     int y;
     int z;
 
-    //Teljes méret
-    Dimension meret;
-
     //Hátulról
     Dimension hHattamlaMeret;
     Dimension hKarfaMeret;
@@ -36,7 +33,7 @@ public class Kanape {
 
     Color karfaSzin;
 
-    Parna[] parnak;
+    Color[] parnaSzinek;
     int parnaSzam;
 
     public Kanape(){
@@ -51,15 +48,10 @@ public class Kanape {
         labSzin = new Color(176, 101, 0);
         karfaSzin = new Color(176, 101, 100);
 
-
-        parnak = new Parna[parnaSzam];
-        parnak[0] = new Parna();
-        parnak[1] = new Parna();
-        parnak[2] = new Parna();
-
-        parnak[0].szin = new Color(255,0,0);
-        parnak[1].szin = new Color(0,225,0);
-        parnak[2].szin = new Color(0,0,255);
+        parnaSzinek = new Color[parnaSzam];
+        parnaSzinek[0] = new Color(255,0,0);
+        parnaSzinek[1] = new Color(0,225,0);
+        parnaSzinek[2] = new Color(0,0,255);
     }
 
     public Kanape(int szelesseg, int parnaszam, Color kanapeszin, int labszam, Color labszin, Color karfaszin, Color[] parnaszinek){
@@ -74,10 +66,9 @@ public class Kanape {
         labSzin = labszin;
         karfaSzin = karfaszin;
 
-        parnak = new Parna[parnaSzam];
+        parnaSzinek = new Color[parnaSzam];
         for (int i = 0; i < parnaSzam; i++){
-            parnak[i] = new Parna();
-            parnak[i].szin = parnaszinek[i];
+            parnaSzinek[i] = parnaszinek[i];
         }
     }
 

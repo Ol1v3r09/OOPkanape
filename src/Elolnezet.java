@@ -100,7 +100,7 @@ public class Elolnezet extends JPanel {
 
         //Párnák előlről
         for (int i = 0; i < kanape.parnaSzam; i++){
-            gr.setColor(kanape.parnak[i].szin);
+            gr.setColor(kanape.parnaSzinek[i]);
             gr.fillRoundRect(
                     kanapeX + (kanape.eParnaMeret.width * i),
                     kanapeY + kanape.eHattamlaMeret.height - kanape.eParnaMeret.height - kanape.eAlsoTamaszMeret.height,

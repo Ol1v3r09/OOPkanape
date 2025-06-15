@@ -64,7 +64,7 @@ public class Felulnezet extends JPanel {
 
         //Párnák
         for (int i = 0; i < kanape.parnaSzam; i++){
-            gr.setColor(kanape.parnak[i].szin);
+            gr.setColor(kanape.parnaSzinek[i]);
             gr.fillRoundRect(
                     kanapeX + (kanape.fParnaMeret.width * i),
                     kanapeY + kanape.fHattamlaMeret.height,

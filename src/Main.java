@@ -1,4 +1,6 @@
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
 
 public class Main {
@@ -12,198 +14,202 @@ public class Main {
     static Felulnezet fel;
 
     public static void Init(){
-        frame = new JFrame();
-        menu = new Menu();
-        kanape = new Kanape();
-
+        frame = new JFrame("Kanapé Tervező");
         frame.setSize(1300, 800);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
+        frame.setLayout(new GridLayout(2, 2));
+
+        kanape = new Kanape();
+        menu = new Menu();
         frame.setJMenuBar(menu.GetMenuBar());
-        frame.setLayout(new GridLayout(2,2));
+    }
+
+    public static void main(String[] args) {
+        Init();
+        updateKanape();
+        frame.setVisible(true);
+    }
+
+    public static void updateKanape(){
+        if (frame.getContentPane().getComponentCount() != 0){
+            frame.remove(elo);
+            frame.remove(old);
+            frame.remove(hat);
+            frame.remove(fel);
+        }
 
         elo = new Elolnezet(kanape);
         old = new Oldalnezet(kanape);
         hat = new Hatsonezet(kanape);
         fel = new Felulnezet(kanape);
-    }
-
-    public static void main (String args[]) {
-        Init();
-        frame.setVisible(true);
 
         frame.add(elo);
         frame.add(old);
         frame.add(hat);
         frame.add(fel);
+
+        frame.revalidate();
+        frame.repaint();
     }
 
-    static class Menu extends JMenuBar{
-        JMenuBar mb;
+    static class Menu {
+        private JMenuBar menuBar;
+        private JPanel formPanel;
+        private JPanel parnaPanel;
 
-        int szelesseg;
-        int parnaszam;
-        int labszam;
-        Color kanapeszin;
-        Color labszin;
-        Color karfaszin;
-        Color[] parnaszinek;
+        public Menu() {
+            menuBar = new JMenuBar();
 
-        JTextField tfSzelesseg;
-        JTextField tfParnaSzam;
-        JTextField tfLabSzam;
+            JMenu fileMenu = new JMenu("Fájl");
+            JMenu kanapeMenu = new JMenu("Kanapé");
 
-        Color cKanapeSzin;
-        Color cLabSzin;
-        Color cKarfaSzin;
+            JMenuItem openSofaDialog = new JMenuItem("Beállítások megnyitása");
+            openSofaDialog.addActionListener(e -> showKanapeDialog());
 
-        JPanel parnaDropdownPanel;
-        boolean parnaDropdownVisible = false;
+            formPanel = new JPanel(new GridLayout(0, 2, 10, 10));
+            parnaPanel = new JPanel(new GridLayout(1,kanape.parnaSzam));
 
-        public Menu(){
-            super();
-            setSize(900, 600);
-            setLayout(new BorderLayout());
+            kanapeMenu.add(openSofaDialog);
+            menuBar.add(fileMenu);
+            menuBar.add(kanapeMenu);
+        }
 
-            mb = new JMenuBar();
+        public JMenuBar GetMenuBar() {
+            return menuBar;
+        }
 
-            mb.add(new JLabel("Szélesség:"));
-            tfSzelesseg = new JTextField();
-            mb.add(tfSzelesseg);
+        private void showKanapeDialog() {
+            formPanel.removeAll();
+            parnaPanel.removeAll();
 
-            mb.add(new JLabel("Párnák száma:"));
-            tfParnaSzam = new JTextField();
-            mb.add(tfParnaSzam);
+            JDialog dialog = new JDialog(frame, "Kanapé beállítások", true);
+            dialog.setSize(600, 400);
+            dialog.setLayout(new BorderLayout());
 
-            mb.add(new JLabel("Lábak száma:"));
-            tfLabSzam = new JTextField();
-            mb.add(tfLabSzam);
+            JTextField tfSzelesseg = new JTextField(String.format("%d", kanape.x));
+            JTextField tfParnaSzam = new JTextField(String.format("%d", kanape.parnaSzam));
+            tfParnaSzam.getDocument().addDocumentListener(new DocumentListener() {
+                public void changedUpdate(DocumentEvent e) { updateParnaPickers(tfParnaSzam.getText()); }
+                public void removeUpdate(DocumentEvent e) { updateParnaPickers(tfParnaSzam.getText()); }
+                public void insertUpdate(DocumentEvent e) { updateParnaPickers(tfParnaSzam.getText()); }
+            });
+            JTextField tfLabSzam = new JTextField(String.format("%d", kanape.labSzam));
 
-            mb.add(new JLabel("Kanapé színe:"));
-            JButton btnKanapeSzin = new JButton("Válassz színt");
+            JButton btnKanapeSzin = new JButton("Válassz");
+            JButton btnLabSzin = new JButton("Válassz");
+            JButton btnKarfaSzin = new JButton("Válassz");
+
+            final Color[] kanapeSzin = {kanape.szin};
+            btnKanapeSzin.setBackground(kanapeSzin[0]);
+            final Color[] labSzin = {kanape.labSzin};
+            btnLabSzin.setBackground(labSzin[0]);
+            final Color[] karfaSzin = {kanape.karfaSzin};
+            btnKarfaSzin.setBackground(karfaSzin[0]);
+
             btnKanapeSzin.addActionListener(e -> {
-                Color c = JColorChooser.showDialog(this, "Kanapé színe", cKanapeSzin);
+                Color c = JColorChooser.showDialog(dialog, "Kanapé színe", kanapeSzin[0]);
                 if (c != null) {
-                    cKanapeSzin = c;
+                    kanapeSzin[0] = c;
                     btnKanapeSzin.setBackground(c);
                 }
             });
-            mb.add(btnKanapeSzin);
 
-            mb.add(new JLabel("Lábak színe:"));
-            JButton btnLabSzin = new JButton("Válassz színt");
             btnLabSzin.addActionListener(e -> {
-                Color c = JColorChooser.showDialog(this, "Lábak színe", cLabSzin);
+                Color c = JColorChooser.showDialog(dialog, "Lábak színe", labSzin[0]);
                 if (c != null) {
-                    cLabSzin = c;
+                    labSzin[0] = c;
                     btnLabSzin.setBackground(c);
                 }
             });
-            mb.add(btnLabSzin);
 
-            mb.add(new JLabel("Karfa színe:"));
-            JButton btnKarfaSzin = new JButton("Válassz színt");
             btnKarfaSzin.addActionListener(e -> {
-                Color c = JColorChooser.showDialog(this, "Karfa színe", cKarfaSzin);
+                Color c = JColorChooser.showDialog(dialog, "Karfa színe", karfaSzin[0]);
                 if (c != null) {
-                    cKarfaSzin = c;
+                    karfaSzin[0] = c;
                     btnKarfaSzin.setBackground(c);
                 }
             });
-            mb.add(btnKarfaSzin);
 
-            JButton btnParnaSzinek = new JButton("Párnaszínek kiválasztása");
-            mb.add(btnParnaSzinek);
+            formPanel.add(new JLabel("Szélesség:"));
+            formPanel.add(tfSzelesseg);
+            formPanel.add(new JLabel("Párnák száma (max 5):"));
+            formPanel.add(tfParnaSzam);
+            formPanel.add(new JLabel("Lábak száma:"));
+            formPanel.add(tfLabSzam);
+            formPanel.add(new JLabel("Kanapé színe:"));
+            formPanel.add(btnKanapeSzin);
+            formPanel.add(new JLabel("Lábak színe:"));
+            formPanel.add(btnLabSzin);
+            formPanel.add(new JLabel("Karfa színe:"));
+            formPanel.add(btnKarfaSzin);
+            formPanel.add(new JLabel("Párnaszínek:"));
 
-            parnaDropdownPanel = new JPanel();
-            parnaDropdownPanel.setLayout(new GridLayout(0, 1));
-            parnaDropdownPanel.setVisible(false);
-            mb.add(parnaDropdownPanel);
+            updateParnaPickers(String.format("%d", kanape.parnaSzam));
+            formPanel.add(parnaPanel, BorderLayout.WEST);
 
-            btnParnaSzinek.addActionListener(e -> {
-                if (!parnaDropdownVisible) {
-                    try {
-                        int parnaSzam = Integer.parseInt(tfParnaSzam.getText());
-                        parnaszinek = new Color[parnaSzam];
-                        parnaDropdownPanel.removeAll();
+            dialog.add(formPanel, BorderLayout.CENTER);
 
-                        for (int i = 0; i < parnaSzam; i++) {
-                            final int index = i;
-                            JButton btn = new JButton("Párna " + (i + 1));
-                            btn.addActionListener(ev -> {
-                                Color chosen = JColorChooser.showDialog(this, "Párna " + (index + 1) + " színe", Color.WHITE);
-                                if (chosen != null) {
-                                    parnaszinek[index] = chosen;
-                                    btn.setBackground(chosen);
-                                }
-                            });
-                            parnaDropdownPanel.add(btn);
-                        }
-
-                        parnaDropdownPanel.setVisible(true);
-                        parnaDropdownVisible = true;
-
-                    } catch (NumberFormatException ex) {
-                        JOptionPane.showMessageDialog(this, "Hibás szám a párnák számánál!", "Hiba", JOptionPane.ERROR_MESSAGE);
+            JButton btnCreate = new JButton("Kanapé létrehozása");
+            btnCreate.addActionListener(e -> {
+                try {
+                    int sz = Integer.parseInt(tfSzelesseg.getText());
+                    int pn = Integer.parseInt(tfParnaSzam.getText());
+                    int lb = Integer.parseInt(tfLabSzam.getText());
+                    Color[] pColors = new Color[pn];
+                    for (int i = 0; i < pn; i++) {
+                        pColors[i] = kanape.parnaSzinek[i] != null ? kanape.parnaSzinek[i] : kanapeSzin[0];
                     }
-                } else {
-                    parnaDropdownPanel.setVisible(false);
-                    parnaDropdownVisible = false;
+                    kanape = new Kanape(sz, pn, kanapeSzin[0], lb, labSzin[0], karfaSzin[0], pColors);
+
+                    updateKanape();
+                    dialog.dispose();
+
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(dialog, "Hibás vagy hiányzó érték!", "Hiba", JOptionPane.ERROR_MESSAGE);
                 }
-
-                parnaDropdownPanel.revalidate();
-                parnaDropdownPanel.repaint();
             });
 
-            JButton btnApply = new JButton("Kanapé létrehozása / frissítése");
-            btnApply.addActionListener(e -> {
-                updateKanape();
-            });
-            mb.add(btnApply);
-
-            setVisible(true);
+            dialog.add(btnCreate, BorderLayout.SOUTH);
+            dialog.setLocationRelativeTo(frame);
+            dialog.setVisible(true);
         }
 
-        private void updateKanape() {
+        private void updateParnaPickers(String value) {
             try {
-                szelesseg = Integer.parseInt(tfSzelesseg.getText());
-                parnaszam = Integer.parseInt(tfParnaSzam.getText());
-                labszam = Integer.parseInt(tfLabSzam.getText());
+                int n = Math.min(Integer.parseInt(value), 5);
+                parnaPanel.removeAll();
+                parnaPanel.setLayout(new GridLayout(1, n));
 
-                if (parnaszinek == null || parnaszinek.length != parnaszam) {
-                    parnaszinek = new Color[parnaszam];
-                    for (int i = 0; i < parnaszam; i++) {
-                        parnaszinek[i] = cKanapeSzin != null ? cKanapeSzin : Color.GRAY;
-                    }
+                for (int i = 0; i < n; i++) {
+                    int idx = i;
+                    Color currentColor = (kanape.parnaSzinek != null && idx < kanape.parnaSzinek.length)
+                            ? kanape.parnaSzinek[idx]
+                            : Color.WHITE;
+
+                    JButton btn = new JButton(String.valueOf(i + 1));
+                    btn.setBackground(currentColor);
+
+                    btn.addActionListener(ev -> {
+                        Color c = JColorChooser.showDialog(frame, "Párna színe", currentColor);
+                        if (c != null) {
+                            kanape.parnaSzinek[idx] = c;
+                            btn.setBackground(c);
+                        }
+                    });
+
+                    parnaPanel.add(btn);
                 }
 
-                kanape = new Kanape(szelesseg, parnaszam, cKanapeSzin, labszam, cLabSzin, cKarfaSzin, parnaszinek);
-
-                frame.remove(elo);
-                frame.remove(old);
-                frame.remove(hat);
-                frame.remove(fel);
-
-                elo = new Elolnezet(kanape);
-                old = new Oldalnezet(kanape);
-                hat = new Hatsonezet(kanape);
-                fel = new Felulnezet(kanape);
-
-                frame.add(elo);
-                frame.add(old);
-                frame.add(hat);
-                frame.add(fel);
-
-                this.revalidate();
-                this.repaint();
-
+                parnaPanel.revalidate();
+                parnaPanel.repaint();
             } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(this, "Kérlek számokat adj meg!", "Hiba", JOptionPane.ERROR_MESSAGE);
+                parnaPanel.removeAll();
+                parnaPanel.revalidate();
+                parnaPanel.repaint();
             }
         }
 
-        public JMenuBar GetMenuBar(){
-            return mb;
-        }
+
     }
 }
