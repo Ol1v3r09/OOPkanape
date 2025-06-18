@@ -1,8 +1,17 @@
 import java.awt.*;
+import java.util.Random;
 
 public class Kanape {
-    Color szin;
-    int x;
+    static final int X_MIN = 300;
+    static final int X_MAX = 550;
+    static final int PARNA_MIN = 1;
+    static final int PARNA_MAX = 5;
+    static final int LAB_MIN = 2;
+    static final int LAB_MAX = 6;
+
+
+    public Color szin;
+    public int x;
     int y;
     int z;
 
@@ -28,47 +37,44 @@ public class Kanape {
     Dimension eParnaMeret;
     Dimension eKarfaMeret;
 
-    int labSzam;
-    Color labSzin;
+    public int labSzam;
+    public Color labSzin;
 
-    Color karfaSzin;
+    public Color karfaSzin;
 
-    Color[] parnaSzinek;
-    int parnaSzam;
+    public Color[] parnaSzinek;
+    public int parnaSzam;
 
     public Kanape(){
-        x = 400;
+        Random rnd =  new Random();
+        x = rnd.nextInt(X_MIN, X_MAX);
         y = x  / 4;
         z = (int)(x * 0.3);
-        parnaSzam = 3;
+
+        parnaSzam = rnd.nextInt(PARNA_MIN,PARNA_MAX + 1);
         MeretekBeallitasa();
 
-        szin = new Color(150,50,0);
-        labSzam = 3;
-        labSzin = new Color(176, 101, 0);
-        karfaSzin = new Color(176, 101, 100);
+        szin = new Color(
+                rnd.nextInt(0,256),
+                rnd.nextInt(0, 256),
+                rnd.nextInt(0,256));
 
-        parnaSzinek = new Color[parnaSzam];
-        parnaSzinek[0] = new Color(255,0,0);
-        parnaSzinek[1] = new Color(0,225,0);
-        parnaSzinek[2] = new Color(0,0,255);
-    }
-
-    public Kanape(int szelesseg, int parnaszam, Color kanapeszin, int labszam, Color labszin, Color karfaszin, Color[] parnaszinek){
-        x = szelesseg;
-        y = x  / 4;
-        z = (int)(x * 0.3);
-        parnaSzam = parnaszam;
-        MeretekBeallitasa();
-
-        szin = kanapeszin;
-        labSzam = labszam;
-        labSzin = labszin;
-        karfaSzin = karfaszin;
+        labSzam = rnd.nextInt(LAB_MIN,LAB_MAX + 1);
+        labSzin = new Color(
+                rnd.nextInt(0,256),
+                rnd.nextInt(0, 256),
+                rnd.nextInt(0,256));
+        karfaSzin = new Color(
+                rnd.nextInt(0,256),
+                rnd.nextInt(0, 256),
+                rnd.nextInt(0,256));
 
         parnaSzinek = new Color[parnaSzam];
         for (int i = 0; i < parnaSzam; i++){
-            parnaSzinek[i] = parnaszinek[i];
+            parnaSzinek[i] = new Color(
+                    rnd.nextInt(0,256),
+                    rnd.nextInt(0, 256),
+                    rnd.nextInt(0,256));
         }
     }
 
