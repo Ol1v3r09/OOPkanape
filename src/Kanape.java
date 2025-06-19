@@ -79,6 +79,8 @@ public class Kanape {
     }
 
     public void MeretekBeallitasa(){
+        y = x  / 4;
+        z = (int)(x * 0.3);
         //Hátsó méretek
         hHattamlaMeret = new Dimension((int)(x * 0.84), (int)(y * 0.8));
         hKarfaMeret = new Dimension((int)(x * 0.08), (int)(y * 0.4));

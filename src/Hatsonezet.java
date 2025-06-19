@@ -13,12 +13,12 @@ public class Hatsonezet extends JPanel {
         super.paintComponent(g);
         Graphics2D gr = (Graphics2D) g.create();
 
-        int kanapeX = (getWidth() - kanape.x) / 2;
-        int kanapeY = (getHeight() - kanape.y) / 2;
+        int kanapeX = (getWidth() / 2) - (kanape.x / 2);
+        int kanapeY = (getHeight()) / 2 - (kanape.y / 2);
 
         Font font = new Font(Font.DIALOG, Font.BOLD, 20);
         gr.setFont(font);
-        gr.drawString("Hátsónézet", kanapeX * 2, kanapeY / 2);
+        gr.drawString("Hátsónézet", (getSize().width / 2) - 80, getSize().height / 4);
 
         //Háttámla
         gr.setColor(kanape.szin);

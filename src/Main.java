@@ -30,7 +30,6 @@ public class Main {
     }
 
     public static void updateKanape(){
-        menu.setKanape(kanape);
         kanape.MeretekBeallitasa();
         if (frame.getContentPane().getComponentCount() != 0){
             frame.remove(elo);
@@ -51,6 +50,8 @@ public class Main {
 
         frame.revalidate();
         frame.repaint();
+
+        menu.setKanape(kanape);
     }
 
     public static void randomKanape(){

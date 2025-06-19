@@ -1,20 +1,19 @@
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.plaf.basic.BasicMenuItemUI;
 import java.awt.*;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import java.io.*;
 
 public class Menu {
-    private JMenuBar menuBar;
-    private JPanel formPanel;
-    private JPanel parnaPanel;
+    private final JMenuBar menuBar;
+    private final JPanel formPanel;
+    private final JPanel parnaPanel;
 
-    private JFrame frame;
+    private final JFrame frame;
     private Kanape kanape;
-    private Runnable updateKanape;
-    private Runnable randomKanape;
+    private final Runnable updateKanape;
+    private final Runnable randomKanape;
 
     public Menu(JFrame frame, Kanape kanape, Runnable updateKanape, Runnable randomKanape) {
         this.frame = frame;
@@ -30,11 +29,23 @@ public class Menu {
         JMenuItem betoltes = new JMenuItem("Betöltés");
         betoltes.addActionListener(e -> kanapeBetoltes());
 
-        JMenu kanapeMenu = new JMenu("Kanapé");
-        JMenuItem randomGeneral = new JMenuItem("Generálás");
+        JMenuItem kanapeDialogus = new JMenuItem("Kanapé Beállítások");
+        kanapeDialogus.setUI(new BasicMenuItemUI());
+        kanapeDialogus.setBorderPainted(false);
+        kanapeDialogus.setFocusPainted(false);
+        kanapeDialogus.setContentAreaFilled(false);
+        kanapeDialogus.setOpaque(false);
+        kanapeDialogus.setMaximumSize(new Dimension(120,20));
+        kanapeDialogus.addActionListener(e -> showKanapeDialog());
+
+        JMenuItem randomGeneral = new JMenuItem("Kanapé Generálás");
+        randomGeneral.setUI(new BasicMenuItemUI());
+        randomGeneral.setBorderPainted(false);
+        randomGeneral.setFocusPainted(false);
+        randomGeneral.setContentAreaFilled(false);
+        randomGeneral.setOpaque(false);
+        randomGeneral.setMaximumSize(new Dimension(120,20));
         randomGeneral.addActionListener(e -> this.randomKanape.run());
-        JMenuItem openSofaDialog = new JMenuItem("Beállítások megnyitása");
-        openSofaDialog.addActionListener(e -> showKanapeDialog());
 
         formPanel = new JPanel(new GridLayout(0, 2, 10, 10));
         parnaPanel = new JPanel(new GridLayout(1, kanape.parnaSzam));
@@ -42,10 +53,9 @@ public class Menu {
 
         fileMenu.add(mentes);
         fileMenu.add(betoltes);
-        kanapeMenu.add(openSofaDialog);
-        kanapeMenu.add(randomGeneral);
         menuBar.add(fileMenu);
-        menuBar.add(kanapeMenu);
+        menuBar.add(kanapeDialogus);
+        menuBar.add(randomGeneral);
     }
 
     public JMenuBar GetMenuBar() {
@@ -55,6 +65,7 @@ public class Menu {
     public void setKanape(Kanape k){
         kanape = k;
     }
+
     private void showKanapeDialog() {
         formPanel.removeAll();
         parnaPanel.removeAll();
@@ -64,104 +75,29 @@ public class Menu {
         dialog.setLayout(new BorderLayout());
 
         JTextField tfSzelesseg = new JTextField(String.format("%d", kanape.x));
-        tfSzelesseg.addFocusListener(new FocusAdapter() {
-            public void focusLost(FocusEvent e) {
-                try {
-                    int pn = Integer.parseInt(tfSzelesseg.getText());
-                    pn = Math.max(Kanape.X_MIN, Math.min(Kanape.X_MAX, pn));
-                    tfSzelesseg.setText(String.valueOf(pn));
-                } catch (NumberFormatException ex) {
-                    tfSzelesseg.setText("200");
-                }
-            }
-        });
-        tfSzelesseg.getDocument().addDocumentListener(new DocumentListener() {
-            private void checkLength() {
-                if (tfSzelesseg.getText().length() == 3) {
-                    tfSzelesseg.transferFocus();
-                }
-            }
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                checkLength();
-            }
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                checkLength();
-            }
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                checkLength();
-            }
-        });
-
         JTextField tfParnaSzam = new JTextField(String.format("%d", kanape.parnaSzam));
-        tfParnaSzam.addFocusListener(new FocusAdapter() {
-            public void focusLost(FocusEvent e) {
-                try {
-                    int pn = Integer.parseInt(tfParnaSzam.getText());
-                    pn = Math.max(Kanape.PARNA_MIN, Math.min(Kanape.PARNA_MAX, pn));
-                    tfParnaSzam.setText(String.valueOf(pn));
-
-                    updateParnaPickers(pn);
-                } catch (NumberFormatException ex) {
-                    tfParnaSzam.setText(String.format("%d", Kanape.PARNA_MIN));
-                    updateParnaPickers(Kanape.PARNA_MIN);
-                }
-            }
-        });
         tfParnaSzam.getDocument().addDocumentListener(new DocumentListener() {
-            private void checkLength() {
-                if (!tfParnaSzam.getText().isEmpty()) {
-                    tfParnaSzam.transferFocus();
-                }
-            }
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                checkLength();
-            }
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                checkLength();
-            }
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                checkLength();
-            }
-        });
-
-
-        JTextField tfLabSzam = new JTextField(String.format("%d", kanape.labSzam));
-        tfLabSzam.addFocusListener(new FocusAdapter() {
-            public void focusLost(FocusEvent e) {
+            private void handleUpdate() {
                 try {
-                    int lb = Integer.parseInt(tfLabSzam.getText());
-                    lb = Math.max(Kanape.LAB_MIN, Math.min(Kanape.LAB_MAX, lb));
-                    tfLabSzam.setText(String.valueOf(lb));
-                } catch (NumberFormatException ex) {
-                    tfLabSzam.setText(String.format("%d", Kanape.LAB_MIN));
+                    int val = Integer.parseInt(tfParnaSzam.getText());
+                    if (val >= Kanape.PARNA_MIN && val <= Kanape.PARNA_MAX) {
+                        updateParnaPickers(val);
+                    }
+                    else if (val < Kanape.PARNA_MIN){
+                        updateParnaPickers(Kanape.PARNA_MIN);
+                    }
+                    else {
+                        updateParnaPickers(Kanape.PARNA_MAX);
+                    }
+                } catch (NumberFormatException ignored) {
                 }
             }
+
+            @Override public void insertUpdate(DocumentEvent e) { handleUpdate(); }
+            @Override public void removeUpdate(DocumentEvent e) { handleUpdate(); }
+            @Override public void changedUpdate(DocumentEvent e) { handleUpdate(); }
         });
-        tfLabSzam.getDocument().addDocumentListener(new DocumentListener() {
-            private void checkLength() {
-                if (!tfLabSzam.getText().isEmpty()) {
-                    tfLabSzam.transferFocus();
-                }
-            }
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                checkLength();
-            }
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                checkLength();
-            }
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                checkLength();
-            }
-        });
+        JTextField tfLabSzam = new JTextField(String.format("%d", kanape.labSzam));
 
         JButton btnKanapeSzin = new JButton("Válassz");
         JButton btnLabSzin = new JButton("Válassz");
@@ -198,11 +134,11 @@ public class Menu {
             }
         });
 
-        formPanel.add(new JLabel("Szélesség:"));
+        formPanel.add(new JLabel(String.format("Szélesség (%d - %d):", Kanape.X_MIN, Kanape.X_MAX)));
         formPanel.add(tfSzelesseg);
-        formPanel.add(new JLabel("Párnák száma (max 5):"));
+        formPanel.add(new JLabel(String.format("Párnák száma (%d - %d):", Kanape.PARNA_MIN, Kanape.PARNA_MAX)));
         formPanel.add(tfParnaSzam);
-        formPanel.add(new JLabel("Lábak száma:"));
+        formPanel.add(new JLabel(String.format("Lábak száma (%d - %d):", Kanape.LAB_MIN, Kanape.LAB_MAX)));
         formPanel.add(tfLabSzam);
         formPanel.add(new JLabel("Kanapé színe:"));
         formPanel.add(btnKanapeSzin);
@@ -247,11 +183,12 @@ public class Menu {
                     lb = Integer.parseInt(tfLabSzam.getText());
                     if (lb < Kanape.LAB_MIN) lb = Kanape.LAB_MIN;
                     if (lb > Kanape.LAB_MAX) lb = Kanape.LAB_MAX;
-                    tfLabSzam.setText(String.valueOf(pn));
+                    tfLabSzam.setText(String.valueOf(lb));
                 } catch (NumberFormatException ex) {
                     lb = Kanape.LAB_MIN;
-                    tfLabSzam.setText(String.valueOf(pn));
+                    tfLabSzam.setText(String.valueOf(lb));
                 }
+
                 kanape.x = sz;
                 kanape.parnaSzam = pn;
                 kanape.szin = kanapeSzin[0];
@@ -359,7 +296,6 @@ public class Menu {
             writer.write(sb.toString());
 
         } catch (IOException e) {
-            e.printStackTrace();
         }
 
     }
@@ -399,7 +335,7 @@ public class Menu {
             updateKanape.run();
 
         } catch (IOException e) {
-            e.printStackTrace();
+
         }
     }
 }

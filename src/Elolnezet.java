@@ -15,12 +15,12 @@ public class Elolnezet extends JPanel {
         super.paintComponent(g);
         Graphics2D gr = (Graphics2D) g.create();
 
-        int kanapeX = (getWidth() - kanape.x) / 2;
-        int kanapeY = (getHeight() - kanape.y) / 2;
+        int kanapeX = (getWidth() / 2) - (kanape.x / 2);
+        int kanapeY = (getHeight()) / 2 - (kanape.y / 2);
 
         Font font = new Font(Font.DIALOG, Font.BOLD, 20);
         gr.setFont(font);
-        gr.drawString("Elölnézet", kanapeX * 2, kanapeY / 2);
+        gr.drawString("Elölnézet", (getSize().width / 2) - 80, getSize().height / 4);
 
         //Háttámla előről
         gr.setColor(kanape.szin);
