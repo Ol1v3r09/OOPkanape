@@ -89,8 +89,6 @@ public class Felulnezet extends JPanel {
         //Karfák
         for (int i = 0; i < 2; i++) {
             gr.setColor(kanape.karfaSzin);
-            /*int x = i == 0 ? kanapeX - karfaSzelesseg / 2 : kanapeX + kanape.meret.width - (karfaSzelesseg / 2);
-            int y = (int) (kanapeY + kanape.meret.height * 0.4);*/
             if (i==0){
                 int x = kanapeX - kanape.fKarfaMeret.width;
                 int y = kanapeY + kanape.fHattamlaMeret.height;

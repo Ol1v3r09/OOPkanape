@@ -12,6 +12,7 @@ public class Main {
     static Felulnezet fel;
 
     public static void Init(){
+        // Program alap változóinak/adatainak beállítása
         frame = new JFrame("Kanapé Tervező");
         frame.setSize(1300, 800);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -30,6 +31,7 @@ public class Main {
     }
 
     public static void updateKanape(){
+        // A kanapé minden oldalról való megjelenítésének az újratöltése
         kanape.MeretekBeallitasa();
         if (frame.getContentPane().getComponentCount() != 0){
             frame.remove(elo);

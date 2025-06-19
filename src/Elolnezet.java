@@ -64,8 +64,6 @@ public class Elolnezet extends JPanel {
 
         //Karfa előlről
         for (int i = 0; i < 2; i++) {
-            /*int x = i == 0 ? kanapeX - karfaSzelesseg / 2 : kanapeX + kanape.meret.width - (karfaSzelesseg / 2);
-            int y = (int) (kanapeY + kanape.meret.height * 0.4);*/
             gr.setColor(kanape.karfaSzin);
             if (i==0){
                 int x = kanapeX - kanape.eKarfaMeret.width;

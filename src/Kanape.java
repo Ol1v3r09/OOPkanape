@@ -2,6 +2,7 @@ import java.awt.*;
 import java.util.Random;
 
 public class Kanape {
+    //Korlátozó parméterek
     static final int X_MIN = 300;
     static final int X_MAX = 550;
     static final int PARNA_MIN = 1;
@@ -15,6 +16,7 @@ public class Kanape {
     int y;
     int z;
 
+    //Minden oldal mérete
     //Hátulról
     Dimension hHattamlaMeret;
     Dimension hKarfaMeret;

@@ -1,6 +1,7 @@
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.plaf.basic.BasicMenuItemUI;
 import java.awt.*;
 import java.io.*;
@@ -21,6 +22,7 @@ public class Menu {
         this.updateKanape = updateKanape;
         this.randomKanape = randomKanape;
 
+        //Menü kinézetének ls menüpontjainak beállítása
         menuBar = new JMenuBar();
 
         JMenu fileMenu = new JMenu("Fájl");
@@ -77,6 +79,7 @@ public class Menu {
         kanape = k;
     }
 
+    //Kanapé létrehozó/módosító fül
     private void showKanapeDialog() {
         formPanel.removeAll();
         parnaPanel.removeAll();
@@ -85,8 +88,10 @@ public class Menu {
         dialog.setSize(600, 400);
         dialog.setLayout(new BorderLayout());
 
+        //Form mezők létrehozása
         JTextField tfSzelesseg = new JTextField(String.format("%d", kanape.x));
         JTextField tfParnaSzam = new JTextField(String.format("%d", kanape.parnaSzam));
+        //A párnaszám text mezőnél az értékmegadás közben/után frissítjük a párnaszín kiválasztókat
         tfParnaSzam.getDocument().addDocumentListener(new DocumentListener() {
             private void handleUpdate() {
                 try {
@@ -166,6 +171,7 @@ public class Menu {
 
         JButton btnCreate = new JButton("Kanapé létrehozása");
         btnCreate.addActionListener(e -> {
+            //Kanapé létrehozása (tulajdonságok módósítása), a fontos adatok validálása
             try {
                 int sz;
                 try {
@@ -221,6 +227,7 @@ public class Menu {
     }
 
     private void updateParnaPickers(int value) {
+        //függvény a párna színválasztók dinamikus változtatásához
         try {
             int n = Math.min(value, Kanape.PARNA_MAX);
             parnaPanel.removeAll();
@@ -265,6 +272,7 @@ public class Menu {
     }
 
     private void kanapeMentes(){
+        //Egy kanapé elmentésének logikája
         FileDialog fd = new FileDialog(frame, "Kanapé Mentés", FileDialog.SAVE);
         fd.setFilenameFilter(new FilenameFilter() {
             @Override
@@ -283,6 +291,7 @@ public class Menu {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
             StringBuilder sb = new StringBuilder();
 
+            //minden adat ,-vel elválasztva egy sorban
             sb.append(kanape.x).append(",");
             sb.append(kanape.parnaSzam).append(",");
             sb.append(kanape.szin.getRed()).append(",");
@@ -312,42 +321,69 @@ public class Menu {
     }
 
     private void kanapeBetoltes(){
-        FileDialog fd = new FileDialog(frame, "Kanapé Betöltés", FileDialog.LOAD);
-        fd.setFilenameFilter(new FilenameFilter() {
-            @Override
-            public boolean accept(File dir, String name) {
-                return name.endsWith(".sofa");
+        //Kanapé betöltése, csak .sofa kiterjesztésű fájlt fogad el
+        JFileChooser fileChooser = new JFileChooser();
+
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("SOFA files (*.sofa)", "sofa");
+        fileChooser.setFileFilter(filter);
+        fileChooser.setAcceptAllFileFilterUsed(false);
+
+        int result = fileChooser.showOpenDialog(null);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+
+            if (selectedFile.getName().toLowerCase().endsWith(".sofa")) {
+                try (BufferedReader reader = new BufferedReader(new FileReader(selectedFile))) {
+                    String line = reader.readLine();
+                    if (line == null) {
+                        JOptionPane.showMessageDialog(null, "Üres fájl!");
+                        return;
+                    }
+
+                    String[] adatok = line.split(",");
+                    if (adatok.length < 12) {
+                        JOptionPane.showMessageDialog(null, "A fájl formátuma nem megfelelő.");
+                        return;
+                    }
+
+                    kanape.x = Integer.parseInt(adatok[0]);
+                    int psz = Integer.parseInt(adatok[1]);
+                    kanape.parnaSzam = psz;
+                    kanape.szin = new Color(Integer.parseInt(adatok[2]), Integer.parseInt(adatok[3]), Integer.parseInt(adatok[4]));
+                    kanape.labSzam = Integer.parseInt(adatok[5]);
+                    kanape.labSzin = new Color(Integer.parseInt(adatok[6]), Integer.parseInt(adatok[7]), Integer.parseInt(adatok[8]));
+                    kanape.karfaSzin = new Color(Integer.parseInt(adatok[9]), Integer.parseInt(adatok[10]), Integer.parseInt(adatok[11]));
+
+                    if (adatok.length < 12 + (psz * 3)) {
+                        JOptionPane.showMessageDialog(null, "Hiányos párna színek adatok.");
+                        return;
+                    }
+
+                    Color[] parnaSzinek = new Color[psz];
+                    int idx = 0;
+                    for (int i = 12; i < 12 + (psz * 3); i += 3) {
+                        parnaSzinek[idx++] = new Color(
+                                Integer.parseInt(adatok[i]),
+                                Integer.parseInt(adatok[i + 1]),
+                                Integer.parseInt(adatok[i + 2])
+                        );
+                    }
+                    kanape.parnaSzinek = parnaSzinek;
+
+                    updateKanape.run();
+
+                } catch (IOException e) {
+                    JOptionPane.showMessageDialog(null, "Hiba a fájl olvasása közben: " + e.getMessage());
+                    e.printStackTrace();
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(null, "Hibás számformátum a fájlban: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Rossz típusú fájl. Kérlek, csak .sofa kiterjesztésű fájlt válassz.");
             }
-        });
-        fd.setVisible(true);
-        String filename = fd.getDirectory() + fd.getFile();
-        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
-            String line;
-            line = reader.readLine();
-
-            String[] adatok = line.split(",");
-            kanape.x = Integer.parseInt(adatok[0]);
-            int psz = Integer.parseInt(adatok[1]);
-            kanape.parnaSzam = psz;
-            kanape.szin = new Color(Integer.parseInt(adatok[2]), Integer.parseInt(adatok[3]), Integer.parseInt(adatok[4]));
-            kanape.labSzam = Integer.parseInt(adatok[5]);
-            kanape.labSzin = new Color(Integer.parseInt(adatok[6]), Integer.parseInt(adatok[7]), Integer.parseInt(adatok[8]));
-            kanape.karfaSzin = new Color(Integer.parseInt(adatok[9]), Integer.parseInt(adatok[10]), Integer.parseInt(adatok[11]));
-            Color[] parnaSzinek = new Color[psz];
-            int idx = 0;
-            for (int i = 12; i < 12 + (psz * 3); i += 3) {
-                parnaSzinek[idx++] = new Color(
-                        Integer.parseInt(adatok[i]),
-                        Integer.parseInt(adatok[i + 1]),
-                        Integer.parseInt(adatok[i + 2])
-                );
-            }
-            kanape.parnaSzinek = parnaSzinek;
-            updateKanape.run();
-
-        } catch (IOException e) {
-
         }
+
     }
 
     private void sugoPdfMegnyitas(){
