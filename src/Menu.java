@@ -29,6 +29,7 @@ public class Menu {
         JMenuItem betoltes = new JMenuItem("Betöltés");
         betoltes.addActionListener(e -> kanapeBetoltes());
 
+
         JMenuItem kanapeDialogus = new JMenuItem("Kanapé Beállítások");
         kanapeDialogus.setUI(new BasicMenuItemUI());
         kanapeDialogus.setBorderPainted(false);
@@ -47,6 +48,15 @@ public class Menu {
         randomGeneral.setMaximumSize(new Dimension(120,20));
         randomGeneral.addActionListener(e -> this.randomKanape.run());
 
+        JMenuItem sugo = new JMenuItem("Súgó");
+        sugo.setUI(new BasicMenuItemUI());
+        sugo.setBorderPainted(false);
+        sugo.setFocusPainted(false);
+        sugo.setContentAreaFilled(false);
+        sugo.setOpaque(false);
+        sugo.setMaximumSize(new Dimension(60,20));
+        sugo.addActionListener(e -> sugoPdfMegnyitas());
+
         formPanel = new JPanel(new GridLayout(0, 2, 10, 10));
         parnaPanel = new JPanel(new GridLayout(1, kanape.parnaSzam));
 
@@ -56,6 +66,7 @@ public class Menu {
         menuBar.add(fileMenu);
         menuBar.add(kanapeDialogus);
         menuBar.add(randomGeneral);
+        menuBar.add(sugo);
     }
 
     public JMenuBar GetMenuBar() {
@@ -336,6 +347,17 @@ public class Menu {
 
         } catch (IOException e) {
 
+        }
+    }
+
+    private void sugoPdfMegnyitas(){
+        try {
+            if (Desktop.isDesktopSupported()) {
+                File pdfFile = new File("sugo.pdf");
+                Desktop.getDesktop().open(pdfFile);
+            }
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, "Nem sikerült megnyitni a súgófájlt", "Hiba", JOptionPane.ERROR_MESSAGE);
         }
     }
 }
